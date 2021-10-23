@@ -1,0 +1,18 @@
+{
+  "data":{
+    "id": "{{ profile_id[0] }}",
+    "relationships": {
+     "hosts":{
+        "data":[
+{% for var  in uuid %}
+            {
+           "id": "{{ var[0] }}",
+            "type": "host"
+            }
+{% endfor %}
+          ]
+      }
+    }
+   }
+ } 
+        
