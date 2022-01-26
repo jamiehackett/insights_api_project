@@ -66,11 +66,11 @@
       debug:
         var: host_data
 
-#    - name: deploy standard
-#      template:
-#        src: templates/STD_host_file_template.j2
-#        dest: files/std_compliance_hosts
-#      delegate_to: localhost
+    - name: deploy standard
+      template:
+        src: templates/STD_host_file_template.j2
+        dest: files/std_compliance_hosts
+      delegate_to: localhost
 
     - name: display file content
       set_fact:
