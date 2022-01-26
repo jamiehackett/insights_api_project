@@ -1,4 +1,19 @@
 ---
+- name: capture all hosts
+  hosts: all
+  gather_facts: yes
+  remote_user: cloud-user
+  tasks:
+
+    - name: deploy standard  
+      template:              
+        src: templates/STD_host_file_template.j2
+        dest: files/std_compliance_hosts
+      delegate_to: localhost 
+                             
+
+
+
 - name: pull compliance policies
   hosts: localhost
   gather_facts: no
@@ -10,8 +25,6 @@
 
   tasks:
 
-#  - name: run on local host
-#    block:
     - name: Get Compliance List-URI
       uri:
         url: https://cloud.redhat.com/api/compliance/profiles
@@ -66,17 +79,13 @@
       debug:
         var: host_data
 
-    - name: deploy standard
-      template:
-        src: templates/STD_host_file_template.j2
-        dest: files/std_compliance_hosts
-      delegate_to: localhost
 
     - name: display file content
       set_fact:
         file_contents: "{{ item }}"
       with_file:
         - "files/std_compliance_hosts"
+      delegate_to: localhost
 
     - name: get uuid of host
       set_fact:
@@ -85,6 +94,7 @@
         uuid: []
         get_uuid: "results[?fqdn == '{{ item }}'].id"
       loop: "{{ file_contents | split(',') }}"
+#      loop: "{{ file_contents | split('\n') }}"
 
     - name: print uuid
       debug:
