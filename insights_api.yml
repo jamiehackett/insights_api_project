@@ -11,6 +11,12 @@
         dest: files/std_compliance_hosts
       delegate_to: localhost 
                              
+    - name: display file content
+      set_fact:
+        file_contents: "{{ item }}"
+      with_file:
+        - "files/std_compliance_hosts"
+      delegate_to: localhost
 
 
 
