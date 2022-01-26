@@ -1,4 +1,4 @@
-{% for host in groups['all'] %}
-- {{ hostvars[host]['ansible_hostname'] }}
+{% for host in groups['test_vms'] %}
+{{ hostvars[host]['ansible_hostname'] }}.dumont-lab.lan
 {% endfor %}
 
