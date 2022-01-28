@@ -1,0 +1,9 @@
+---
+- name: run insights compliance scan
+  hosts: all
+  become: true
+
+  tasks:
+    - name: run insights compliance scan
+      shell: "insights-client --compliance"
+      ignore_errors: yes
