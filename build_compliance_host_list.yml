@@ -1,0 +1,21 @@
+---
+- name: capture all hosts
+  hosts: "{{ compliance_type }}"
+  gather_facts: yes
+  remote_user: cloud-user
+  tasks:
+ 
+    - name: deploy standard
+      template:
+        src: templates/STD_host_file_template.j2
+        dest: files/std_compliance_hosts
+      delegate_to: localhost
+ 
+    - name: display file content
+      set_fact:
+        file_contents: "{{ item }}"
+      with_file:
+        - "files/std_compliance_hosts"
+      delegate_to: localhost
+ 
+
