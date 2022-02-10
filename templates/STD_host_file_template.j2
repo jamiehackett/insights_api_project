@@ -1,4 +1,4 @@
-{% for host in groupvars[groups_name]['compliance_type'] %}
+{% for host in groups['label_compliance_policy_standard'] %}
 {{ hostvars[host]['ansible_hostname'] }}.dumont-lab.lan
 {% endfor %}
 
