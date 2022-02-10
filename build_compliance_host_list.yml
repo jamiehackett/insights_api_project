@@ -1,6 +1,6 @@
 ---
 - name: capture all hosts
-  hosts: label_compliance_policy_standard
+  hosts: "{{ compliance_type }}"
   gather_facts: yes
   remote_user: cloud-user
   tasks:
