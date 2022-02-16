@@ -1,21 +1,42 @@
 ---
-- name: capture all hosts
-  hosts: "{{ compliance_type }}"
+- name: capture hosts for standard compliance policy
+  hosts: label_compliance_policy_standard
   gather_facts: yes
   remote_user: cloud-user
   tasks:
- 
-    - name: deploy standard
+
+    - name: create standard policy host list
       template:
         src: templates/STD_host_file_template.j2
         dest: files/std_compliance_hosts
       delegate_to: localhost
- 
+        
+
     - name: display file content
       set_fact:
         file_contents: "{{ item }}"
       with_file:
         - "files/std_compliance_hosts"
       delegate_to: localhost
- 
+
+- name: capture hosts for pci compliance policy
+  hosts: label_compliance_policy_pci
+  gather_facts: yes
+  remote_user: cloud-user
+  tasks:
+    
+    - name: create pci policy host list
+      template:
+        src: templates/PCI_host_file_template.j2
+        dest: files/pci_compliance_hosts
+      delegate_to: localhost
+        
+    
+    - name: display file content
+      set_fact:
+        file_contents: "{{ item }}"
+      with_file:
+        - "files/pci_compliance_hosts"
+      delegate_to: localhost
+    
 
