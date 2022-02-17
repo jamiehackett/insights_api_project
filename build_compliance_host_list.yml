@@ -13,8 +13,9 @@
         
 
     - name: display file content
-      set_fact:
-        file_contents: "{{ item }}"
+      set_stats:
+        data:
+          file_contents: "{{ item }}"
       with_file:
         - "files/std_compliance_hosts"
       delegate_to: localhost
