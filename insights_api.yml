@@ -80,6 +80,7 @@
         get_uuid: "results[?fqdn == '{{ item }}'].id"
 #      loop: "{{ file_contents | split(',') }}"
       loop: "{{ file_contents | split('\n') }}"
+      delegate_to: localhost
 
     - name: print uuid
       debug:
@@ -90,6 +91,7 @@
         src=templates/compliance_host.j2
         dest=compliance_host.json
         mode=0644
+      delegate_to: localhost
     
     - name: lookup compliance host
       set_fact:
