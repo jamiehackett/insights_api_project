@@ -65,12 +65,12 @@
         var: host_data
 
 
-    - name: display file content
-      set_fact:
-        file_contents: "{{ item }}"
-      with_file:
-        - "files/{{ compliance_type }}_compliance_hosts"
-      delegate_to: localhost
+  #  - name: display file content
+  #    set_fact:
+  #      file_contents: "{{ item }}"
+  #    with_file:
+  #      - "files/{{ compliance_type }}_compliance_hosts"
+  #    delegate_to: localhost
 
     - name: get uuid of host
       set_fact:
