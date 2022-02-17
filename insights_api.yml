@@ -86,7 +86,7 @@
         var: uuid                                                              
  
     - name: create lookup file
-      local_action: template
+      template:
         src=templates/compliance_host.j2
         dest=compliance_host.json
         mode=0644
