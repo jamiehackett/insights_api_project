@@ -78,8 +78,8 @@
       vars:
         uuid: []
         get_uuid: "results[?fqdn == '{{ item }}'].id"
-#      loop: "{{ file_contents | split(',') }}"
-      loop: "{{ file_contents | split('\n') }}"
+      loop: "{{ file_contents | split(',') }}"
+#      loop: "{{ file_contents | split('\n') }}"
 
     - name: print uuid
       debug:
