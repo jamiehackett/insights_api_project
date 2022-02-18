@@ -1,7 +1,7 @@
 ---
 
 - name: capture hosts for standard compliance policy
-  hosts: all
+  hosts: "{{ compliance_type }}"
   gather_facts: yes
   remote_user: cloud-user
   tasks:
@@ -12,6 +12,13 @@
         dest: files/std_compliance_hosts
       delegate_to: localhost
       when: compliance_type == 'label_compliance_policy_standard'
+
+    - name: create pci policy host list
+      template:
+        src: templates/PCI_host_file_template.j2
+        dest: files/pci_compliance_hosts
+      delegate_to: localhost
+      when: compliance_type == 'label_compliance_policy_pci'
 
 
 
@@ -81,13 +88,23 @@
         var: host_data
 
 
-    - name: set file content var to std
+    - name: set file content fact to std
       set_fact:
         file_contents: "{{ item }}"
       with_file:
         - "files/std_compliance_hosts"
       delegate_to: localhost
       when: compliance_type == 'label_compliance_policy_standard'
+
+    - name: set file content fact to pci                     
+      set_fact:                                             
+        file_contents: "{{ item }}"                         
+      with_file:                                            
+        - "files/pci_compliance_hosts"                      
+      delegate_to: localhost                                
+      when: compliance_type == 'label_compliance_policy_pci'
+
+
 
 
     - name: get uuid of host
