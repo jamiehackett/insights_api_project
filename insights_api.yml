@@ -1,6 +1,22 @@
 ---
+
+- name: capture hosts for standard compliance policy
+  hosts: "{{ compliance_type }}"
+  gather_facts: yes
+  remote_user: cloud-user
+  tasks:
+ 
+    - name: create standard policy host list
+      template:
+        src: templates/STD_host_file_template.j2
+        dest: files/std_compliance_hosts
+      delegate_to: localhost
+      when: compliance_type == 'label_compliance_policy_standard'
+
+
+
 - name: add host to compliance policies
-  hosts: all
+  hosts: localhost
   gather_facts: no
   vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
@@ -65,12 +81,14 @@
         var: host_data
 
 
-  #  - name: display file content
-  #    set_fact:
-  #      file_contents: "{{ item }}"
-  #    with_file:
-  #      - "files/{{ compliance_type }}_compliance_hosts"
-  #    delegate_to: localhost
+    - name: set file content var to std
+      set_fact:
+        file_contents: "{{ item }}"
+      with_file:
+        - "files/std_compliance_hosts"
+      delegate_to: localhost
+      when: compliance_type == 'label_compliance_policy_standard'
+
 
     - name: get uuid of host
       set_fact:
