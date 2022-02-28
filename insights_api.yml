@@ -4,6 +4,8 @@
   hosts: "{{ compliance_type }}"
   gather_facts: yes
   remote_user: cloud-user
+#  vars_files:
+#    - vars/test_vars.yml
   tasks:
  
     - name: create standard policy host list
@@ -30,6 +32,8 @@
 #    - host_name: '2021-09-03-20-41-06-1.dumont-lab.lan'
   vars_files:
     - secrets_folder/ovirt-pass
+#    - vars/test_vars.yml
+
 
   tasks:
 
@@ -96,13 +100,13 @@
       delegate_to: localhost
       when: compliance_type == 'label_compliance_policy_standard'
 
-    - name: set file content fact to pci                     
-      set_fact:                                             
-        file_contents: "{{ item }}"                         
-      with_file:                                            
-        - "files/pci_compliance_hosts"                      
-      delegate_to: localhost                                
-      when: compliance_type == 'label_compliance_policy_pci'
+#    - name: set file content fact to pci                     
+#      set_fact:                                             
+#        file_contents: "{{ item }}"                         
+#      with_file:                                            
+#        - "files/pci_compliance_hosts"                      
+#      delegate_to: localhost                                
+#      when: compliance_type == 'label_compliance_policy_pci'
 
 
 
