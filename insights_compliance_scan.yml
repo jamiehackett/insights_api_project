@@ -4,6 +4,7 @@
   become: true
 
   tasks:
-    - name: run insights compliance scan
-      shell: "insights-client --compliance"
-      ignore_errors: yes
+    - name: run insights compliance
+      import_role:
+        name: redhat.insights.compliance
+        tasks_from: run
