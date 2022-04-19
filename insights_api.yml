@@ -32,7 +32,7 @@
 #    - host_name: '2021-09-03-20-41-06-1.dumont-lab.lan'
   vars_files:
     - secrets_folder/ovirt-pass
-    - vars/test_vars.yml
+#    - vars/test_vars.yml
 
 
   tasks:
