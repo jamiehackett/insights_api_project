@@ -1,7 +1,7 @@
 ---
 
 - name: capture hosts for standard compliance policy
-  hosts: "{{ compliance_type }}"
+  hosts: all
   gather_facts: yes
   remote_user: cloud-user
 #  vars_files:
@@ -32,7 +32,7 @@
 #    - host_name: '2021-09-03-20-41-06-1.dumont-lab.lan'
   vars_files:
     - secrets_folder/ovirt-pass
-#    - vars/test_vars.yml
+    - vars/test_vars.yml
 
 
   tasks:
@@ -100,6 +100,11 @@
       delegate_to: localhost
       when: compliance_type == 'label_compliance_policy_standard'
 
+    - name: print file content fact
+      debug:
+        var: file_contents
+
+
 #    - name: set file content fact to pci                     
 #      set_fact:                                             
 #        file_contents: "{{ item }}"                         
@@ -119,6 +124,7 @@
         get_uuid: "results[?fqdn == '{{ item }}'].id"
 #      loop: "{{ file_contents | split(',') }}"
       loop: "{{ file_contents | split('\n') }}"
+#      loop: "{{ file_contents }}"
       delegate_to: localhost
 
     - name: print uuid
