@@ -1,7 +1,7 @@
 ---
 
 - name: capture hosts for standard compliance policy
-  hosts: all
+  hosts: "{{ compliance_type }}"
   gather_facts: yes
   remote_user: cloud-user
 #  vars_files:
