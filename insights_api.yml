@@ -1,6 +1,6 @@
 ---
 
-- name: capture hosts for standard compliance policy
+- name: capture hosts adding to compliance policies
   hosts: all
   gather_facts: yes
   remote_user: cloud-user
@@ -13,7 +13,8 @@
         src: templates/STD_host_file_template.j2
         dest: files/std_compliance_hosts
       delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_standard'
+      when: (compliance_type == 'label_compliance_policy_standard') or 
+      (compliance_type == 'infra-vms')
 
     - name: create pci policy host list
       template:
@@ -37,17 +38,39 @@
 
   tasks:
 
+    - name: get access token
+      uri:
+        url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
+        method: POST
+        return_content: True
+        body_format: form-urlencoded
+        headers:
+    #          Content-Type: "application/json"
+          accept: application/json
+        body:
+          grant_type: refresh_token
+          client_id: rhsm-api
+          refresh_token: "{{ my_offline_token }}"
+    #        force_basic_auth: True
+        validate_certs: False
+      register: access_token_reponse
+
+    - name: print access token
+      set_fact:
+        token: "{{ access_token_reponse.json.access_token }}"
+
+
+
     - name: Get Compliance List-URI
       uri:
-        url: https://cloud.redhat.com/api/compliance/profiles
+        url: https://console.redhat.com/api/compliance/profiles
         method: GET
-        headers: 
+        headers:
+          Authorization: "Bearer {{ token }}"        
           Content-Type: "application/json"
           accept: application/json
         body_format: form-urlencoded
         status_code: 200
-        user: bdumont@redhat.com
-        password: "{{ ovirt_password }}"
         return_content: yes
         validate_certs: false
         force_basic_auth: yes
@@ -69,14 +92,13 @@
     - name: Get Host List
       uri:
         url: https://cloud.redhat.com/api/inventory/v1/hosts
-        method: GET                                                                                                                                       
+        method: GET                                                                                                                                 
         headers:
+          Authorization: "Bearer {{ token }}"
           Content-Type: "application/json"
           accept: application/json
         body_format: form-urlencoded
         status_code: 200
-        user: bdumont@redhat.com
-        password: "{{ ovirt_password }}"
         return_content: yes
         validate_certs: false
         force_basic_auth: yes
@@ -98,7 +120,8 @@
       with_file:
         - "files/std_compliance_hosts"
       delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_standard'
+      when: (compliance_type == 'label_compliance_policy_standard') or
+      (compliance_type == 'infra-vms')
 
     - name: print file content fact
       debug:
@@ -152,13 +175,12 @@
         method: PATCH
 #        method: GET
         headers:
+          Authorization: "Bearer {{ token }}"
           Content-Type: "application/json"
           accept: application/json
         body_format: json
         body: "{{ lookup('file','compliance_host.json') }}"
         status_code: 200
-        user: bdumont@redhat.com
-        password: "{{ ovirt_password }}"
         return_content: yes
         validate_certs: false
         force_basic_auth: yes
