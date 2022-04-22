@@ -119,8 +119,7 @@
       with_file:
         - "files/std_compliance_hosts"
       delegate_to: localhost
-      when: (compliance_type == 'label_compliance_policy_standard') or
-      (compliance_type == 'infra-vms')
+      when: compliance_type == 'label_compliance_policy_standard'
 
     - name: print file content fact
       debug:
