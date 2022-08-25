@@ -12,18 +12,10 @@
     - name: create standard policy host list
       template:
         src: templates/STD_host_file_template.j2
-        dest: files/std_compliance_hosts
+        dest: files/std_compliance_hosts-1
       delegate_to: localhost
       when: compliance_type == 'label_compliance_policy_standard' 
 
-    - name: display file content
-      set_stats:
-        data:
-          file_contents: "{{ item }}"
-      with_file:
-        - "files/std_compliance_hosts"
-      delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_standard'
 
     - name: create pci policy host list
       template:
@@ -122,13 +114,13 @@
         var: host_data
 
 
-#    - name: set file content fact to std
-#      set_fact:
-#        file_contents: "{{ item }}"
-#      with_file:
-#        - "files/std_compliance_hosts"
-#      delegate_to: localhost
-#      when: compliance_type == 'label_compliance_policy_standard'
+    - name: set file content fact to std
+      set_fact:
+        file_contents: "{{ item }}"
+      with_file:
+        - "files/std_compliance_hosts-1"
+      delegate_to: localhost
+      when: compliance_type == 'label_compliance_policy_standard'
 
     - name: print file content fact
       debug:
