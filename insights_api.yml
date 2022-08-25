@@ -5,7 +5,7 @@
   gather_facts: yes
 #  remote_user: cloud-user
   vars_files:
-    - secrets_folder/ovirt_pass 
+    - secrets_folder/ovirt-pass 
 
   tasks:
  
