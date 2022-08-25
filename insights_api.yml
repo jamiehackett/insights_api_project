@@ -4,8 +4,9 @@
   hosts: all
   gather_facts: yes
 #  remote_user: cloud-user
-#  vars_files:
-#    - vars/test_vars.yml
+  vars_files:
+    - secrets_folder/ovirt_pass 
+
   tasks:
  
     - name: create standard policy host list
