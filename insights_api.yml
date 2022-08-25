@@ -3,7 +3,7 @@
 - name: capture hosts adding to compliance policies
   hosts: all
   gather_facts: yes
-  remote_user: cloud-user
+#  remote_user: cloud-user
 #  vars_files:
 #    - vars/test_vars.yml
   tasks:
