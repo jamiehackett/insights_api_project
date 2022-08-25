@@ -1,0 +1,12 @@
+---
+- name: install and register insights 
+  hosts: all 
+#    - aap-control.dumont-lab.lan
+#    - aap-hub.dumont-lab.lan
+  become: true
+
+  tasks:
+    - name: install and register insights
+      include_role:
+        name: redhat.insights.insights_client
+
