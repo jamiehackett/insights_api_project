@@ -14,15 +14,15 @@
         src: templates/STD_host_file_template.j2
         dest: files/std_compliance_hosts-1
       delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_standard' 
+#      when: compliance_type == 'label_compliance_policy_standard' 
 
 
-    - name: create pci policy host list
-      template:
-        src: templates/PCI_host_file_template.j2
-        dest: files/pci_compliance_hosts
-      delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_pci'
+#    - name: create pci policy host list
+#      template:
+#        src: templates/PCI_host_file_template.j2
+#        dest: files/pci_compliance_hosts
+#      delegate_to: localhost
+#      when: compliance_type == 'label_compliance_policy_pci'
 
 
 
@@ -120,7 +120,7 @@
       with_file:
         - "files/std_compliance_hosts-1"
       delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_standard'
+#      when: compliance_type == 'label_compliance_policy_standard'
 
     - name: print file content fact
       debug:
