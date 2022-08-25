@@ -25,7 +25,7 @@
 
 
 - name: add host to compliance policies
-  hosts: all
+  hosts: localhost
   gather_facts: no
   vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
