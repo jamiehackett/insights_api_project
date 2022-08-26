@@ -29,10 +29,9 @@
 
 
 - name: add host to compliance policies
-  hosts: 
-    localhost:
-      vars:
-        ansible_connection: local
+  hosts: localhost
+  vars:
+    ansible_connection: local
   gather_facts: no
 #  vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
