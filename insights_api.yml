@@ -1,7 +1,7 @@
 ---
 
 - name: capture hosts adding to compliance policies
-  hosts: all
+  hosts: label_compliance_policy_standard 
   gather_facts: yes
 #  remote_user: cloud-user
   vars_files:
