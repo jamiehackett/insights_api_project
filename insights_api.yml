@@ -13,7 +13,9 @@
       template:
         src: templates/STD_host_file_template.j2
         dest: files/std_compliance_hosts-1
-#      delegate_to: localhost
+      delegate_to: localhost
+      vars:
+        ansible_connection: local
 #      when: compliance_type == 'label_compliance_policy_standard' 
 
 
