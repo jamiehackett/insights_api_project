@@ -31,7 +31,8 @@
 - name: add host to compliance policies
   hosts: localhost
   vars:
-    ansible_connection: local
+    - ansible_connection: local
+    - profile_name: 'Protection Profile for General Purpose Operating Systems'
   gather_facts: no
 #  vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
@@ -174,7 +175,7 @@
 
     - name: Update Compliance Host List
       uri:
-        url: "https://cloud.redhat.com/api/compliance/profiles/{{ profile_id[0] }}"
+        url: "https://console.redhat.com/api/compliance/profiles/{{ profile_id[0] }}"
         method: PATCH
 #        method: GET
         headers:
