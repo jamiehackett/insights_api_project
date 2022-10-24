@@ -30,7 +30,7 @@
   hosts: label_compliance_policy_non_production
   vars:
     - ansible_connection: local
-    - profile_name: 'CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server'
+    - profile_name: 'CIS Red Hat Enterprise Linux 8 Benchmark for Level 1 - Server'
   gather_facts: no
 #  vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
