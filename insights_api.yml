@@ -119,7 +119,7 @@
       set_fact:
         file_contents: "{{ item }}"
       with_file:
-        - "files/std_compliance_hosts-1"
+        - "files/non_prod_hosts-1"
       delegate_to: localhost
 #      when: compliance_type == 'label_compliance_policy_standard'
 
