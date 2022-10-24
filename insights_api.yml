@@ -141,10 +141,10 @@
 
     - name: get uuid of host
       set_fact:
-        id: "{{ id + [ host_data | json_query(get_id)] }}"
+        uuid: "{{ uuid + [ host_data | json_query(get_uuid)] }}"
       vars:
-        id: []
-        get_id: "results[?fqdn == '{{ item }}'].id"
+        uuid: []
+        get_uuid: "results[?fqdn == '{{ item }}'].id"
 #      loop: "{{ file_contents | split(',') }}"
       loop: "{{ file_contents | split('\n') }}"
 #      loop: "{{ file_contents }}"
@@ -152,7 +152,7 @@
 
     - name: print uuid
       debug:
-        var: id                                                              
+        var: uuid                                                              
  
     - name: create lookup file
       template:
