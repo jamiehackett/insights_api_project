@@ -1,23 +1,22 @@
 ---
 
 - name: capture hosts adding to compliance policies
-  hosts: label_compliance_policy_standard 
+  hosts: label_compliance_policy_production
   gather_facts: yes
-#  remote_user: cloud-user
   vars_files:
-    - secrets_folder/ovirt-pass 
 
   tasks:
- 
-    - name: create standard policy host list
+    - name: create non-prod policy host list
       template:
-        src: templates/STD_host_file_template.j2
-        dest: files/std_compliance_hosts-1
+        src: templates/non_prod_host_file_template.j2
+        dest: files/non_prod_hosts-1
       delegate_to: localhost
       vars:
         ansible_connection: local
-#      when: compliance_type == 'label_compliance_policy_standard' 
+      when: compliance_type == 'label_compliance_policy_non_production' 
 
+
+#TODO CREATE POLICY LIST FOR PROD
 
 #    - name: create pci policy host list
 #      template:
@@ -27,18 +26,17 @@
 #      when: compliance_type == 'label_compliance_policy_pci'
 
 
-
 - name: add host to compliance policies
   hosts: localhost
   vars:
     - ansible_connection: local
-    - profile_name: 'Protection Profile for General Purpose Operating Systems'
+    - profile_name: 'CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server'
   gather_facts: no
 #  vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
 #    - host_name: '2021-09-03-20-41-06-1.dumont-lab.lan'
   vars_files:
-    - secrets_folder/ovirt-pass
+#    - secrets_folder/ovirt-pass
 #    - vars/test_vars.yml
 
 
