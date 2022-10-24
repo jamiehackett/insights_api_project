@@ -1,7 +1,7 @@
 ---
 
 - name: capture hosts adding to compliance policies
-  hosts: localhost
+  hosts: all
   gather_facts: yes
   vars_files:
 
