@@ -27,7 +27,7 @@
 
 
 - name: add host to compliance policies
-  hosts: all
+  hosts: label_compliance_policy_non_production
   vars:
     - ansible_connection: local
     - profile_name: 'CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server'
