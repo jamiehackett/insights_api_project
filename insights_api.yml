@@ -177,4 +177,5 @@
         validate_certs: false
         force_basic_auth: yes
       register: new_profile
+      ignore_errors: yes
 
