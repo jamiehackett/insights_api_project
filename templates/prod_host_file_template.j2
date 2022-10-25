@@ -1,0 +1,5 @@
+{% for host in groups[ 'label_compliance_policy_production' ] %}
+{{ hostvars[host]['ansible_hostname'] }}.example.com
+{% endfor %}
+
+

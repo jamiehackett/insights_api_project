@@ -1,9 +1,8 @@
 ---
-
+# At the moment we are duplicating tasks based on hte label i.e prod or non prod probably should look to remove these duplicated tasks and use variables instead. 
 - name: capture hosts adding to compliance policies
   hosts: all
   gather_facts: yes
-  vars_files:
 
   tasks:
     - name: create non-prod policy host list
@@ -13,24 +12,22 @@
       delegate_to: localhost
       vars:
         ansible_connection: local
-      when: compliance_type == 'label_compliance_policy_non_production' 
+      when: compliance_type == 'label_compliance_policy_non_production'
 
-
-#TODO CREATE POLICY LIST FOR PROD
-
-#    - name: create pci policy host list
-#      template:
-#        src: templates/PCI_host_file_template.j2
-#        dest: files/pci_compliance_hosts
-#      delegate_to: localhost
-#      when: compliance_type == 'label_compliance_policy_pci'
+    - name: create prod policy host list
+      template:
+        src: templates/prod_host_file_template.j2
+        dest: files/prod_hosts-1
+      delegate_to: localhost
+      when: compliance_type == 'label_compliance_policy_production'
 
 
 - name: add host to compliance policies
-  hosts: label_compliance_policy_non_production
+  hosts: '{{ compliance_type }}'
   vars:
     - ansible_connection: local
-    - profile_name: 'CIS Red Hat Enterprise Linux 8 Benchmark for Level 1 - Server'
+    # Put in as varaible below so we can change the playbook
+    - profile_name: '{{ profile_name }}'
   gather_facts: no
 #  vars:
 #    - profile_name: 'Protection Profile for General Purpose Operating Systems'
@@ -115,29 +112,25 @@
         var: host_data
 
 
-    - name: set file content fact to std
+    - name: set file content fact to non-prod
       set_fact:
         file_contents: "{{ item }}"
       with_file:
         - "files/non_prod_hosts-1"
       delegate_to: localhost
-#      when: compliance_type == 'label_compliance_policy_standard'
+      when: compliance_type == 'label_compliance_policy_non_production'
+
+    - name: set file content fact to prod                     
+      set_fact:                                             
+        file_contents: "{{ item }}"                         
+      with_file:                                            
+        - "files/prod_hosts-1"                      
+      delegate_to: localhost                                
+      when: compliance_type == 'label_compliance_policy_production'
 
     - name: print file content fact
       debug:
         var: file_contents
-
-
-#    - name: set file content fact to pci                     
-#      set_fact:                                             
-#        file_contents: "{{ item }}"                         
-#      with_file:                                            
-#        - "files/pci_compliance_hosts"                      
-#      delegate_to: localhost                                
-#      when: compliance_type == 'label_compliance_policy_pci'
-
-
-
 
     - name: get uuid of host
       set_fact:
