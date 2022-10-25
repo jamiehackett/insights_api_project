@@ -119,13 +119,13 @@
       delegate_to: localhost                                
       when: compliance_type == 'label_compliance_policy_production'
 
-    - name: set file content fact to non-prod
-      set_fact:
-        file_contents: "{{ item }}"
-      with_file:
-        - "files/non_prod_hosts-1"
-      delegate_to: localhost
-      when: compliance_type == 'label_compliance_policy_non_production'
+   # - name: set file content fact to non-prod
+    #  set_fact:
+    #    file_contents: "{{ item }}"
+    # with_file:
+    #    - "files/non_prod_hosts-1"
+    #  delegate_to: localhost
+    #  when: compliance_type == 'label_compliance_policy_non_production'
 
     - name: print file content fact
       debug:
