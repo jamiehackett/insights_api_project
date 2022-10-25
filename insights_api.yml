@@ -5,14 +5,14 @@
   gather_facts: yes
 
   tasks:
-    - name: create non-prod policy host list
-      template:
-        src: templates/non_prod_host_file_template.j2
-        dest: files/non_prod_hosts-1
-      delegate_to: localhost
-      vars:
-        ansible_connection: local
-      when: compliance_type == 'label_compliance_policy_non_production'
+   # - name: create non-prod policy host list
+   #   template:
+   #     src: templates/non_prod_host_file_template.j2
+   #     dest: files/non_prod_hosts-1
+   #   delegate_to: localhost
+   #   vars:
+   #     ansible_connection: local
+   #   when: compliance_type == 'label_compliance_policy_non_production'
 
     - name: create prod policy host list
       template:
