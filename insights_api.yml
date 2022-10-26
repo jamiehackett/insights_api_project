@@ -1,5 +1,5 @@
 ---
-- name: Capture hosts for {{ hosts }} policy #{{ hosts }}
+- name: Capture hosts for '{{ hosts }}' policy #{{ hosts }}
   hosts: '{{ hosts }}' # {{ hosts }}
   gather_facts: yes
   tasks:    
