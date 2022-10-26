@@ -20,7 +20,7 @@
   hosts: production
   vars:
     - ansible_connection: local
-    - profile_name: CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server - PRODUCTION
+    - profile_name: '{{ profile_name }}'
   gather_facts: no
 
   tasks:
