@@ -20,7 +20,7 @@
   hosts: '{{ hosts }}' # {{ hosts }}
   vars:
     - ansible_connection: local
-    - profile_name: {{ profile_name }} # {{ profile_name }}
+    - profile_name: '{{ profile_name }}' # {{ profile_name }}
   gather_facts: no
 
   tasks:
