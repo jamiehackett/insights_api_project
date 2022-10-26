@@ -1,30 +1,30 @@
 ---
-- name: capture hosts for production policy
-  hosts: production
+- name: Capture hosts for '{{ hosts }}' policy #{{ hosts }}
+  hosts: '{{ hosts }}' # {{ hosts }}
   gather_facts: yes
   tasks:    
-    - name: create production policy host list
+    - name: Create '{{ hosts }}' policy host list #{{ hosts }}
       template:
-        src: templates/prod_host_file_template.j2
-        dest: files/prod_hosts
+        src: templates/'{{ hosts }}'_host_file_template.j2 #{{ hosts }}
+        dest: files/'{{ hosts }}'_hosts #{{ hosts }}
       delegate_to: localhost
         
-    - name: display file content
+    - name: Display file content
       set_fact:
         file_contents: "{{ item }}"
       with_file:
-        - "files/prod_hosts"
+        - "files/'{{ hosts }}'_hosts" # {{ hosts }}
       delegate_to: localhost
 
-- name: add host to compliance policies
-  hosts: production
+- name: Add hosts to compliance policies
+  hosts: '{{ hosts }}' # {{ hosts }}
   vars:
     - ansible_connection: local
-    - profile_name: CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server - PRODUCTION
+    - profile_name: '{{ profile_name }}' # {{ profile_name }}
   gather_facts: no
 
   tasks:
-    - name: get access token
+    - name: Get access token
       uri:
         url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
         method: POST
@@ -39,11 +39,11 @@
         validate_certs: False
       register: access_token_reponse
 
-    - name: print access token
+    - name: Print access token
       set_fact:
         token: "{{ access_token_reponse.json.access_token }}"
 
-    - name: Get Compliance List-URI
+    - name: Get list of compliance profiles from the Red Hat Insights API
       uri:
         url: https://console.redhat.com/api/compliance/profiles
         method: GET
@@ -59,20 +59,20 @@
       register: profiles
       delegate_to: localhost
 
-    - name: set profile list
+    - name: Set profile list
       set_fact:
         profile_list: "{{ profiles.json }}"
 
-    - name: profile_id
+    - name: Set profile_id
       set_fact:
         profile_id: "{{ profile_list | json_query(get_profile_id) }}"        
       vars:
         get_profile_id: "data[?attributes.name ==  '{{ profile_name }}'].id"
 
-    - name: Get Host List
+    - name: Get list of hosts from the Red Hat Insights API
       uri:
         url: https://cloud.redhat.com/api/inventory/v1/hosts
-        method: GET                                                                                                                                 
+        method: GET                                                       
         headers:
           Authorization: "Bearer {{ token }}"
           Content-Type: "application/json"
@@ -84,26 +84,26 @@
         force_basic_auth: yes
       register: host_list
 
-    - name: host_data fact
+    - name: Set host_data fact
       set_fact:
         host_data: "{{ host_list.json }}"
 
-    - name: print fact
+    - name: Print fact
       debug:
         var: host_data
 
-    - name: set file content fact to prod                     
+    - name: Set file content to host_data fact                     
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            
-        - "files/prod_hosts"                      
+        - "files/'{{ hosts }}'_hosts" # {{ hosts }}               
       delegate_to: localhost                                
 
-    - name: print file content fact
+    - name: Print file content fact
       debug:
         var: file_contents
 
-    - name: get uuid of host
+    - name: Get uuid of each of the hosts
       set_fact:
         uuid: "{{ uuid + [ host_data | json_query(get_uuid)] }}"
       vars:
@@ -115,7 +115,6 @@
     - name: print uuid
       debug:
         var: uuid                                                              
- 
     - name: create lookup file
       template:
         src=templates/compliance_host.j2
@@ -123,15 +122,15 @@
         mode=0644
       delegate_to: localhost
     
-    - name: lookup compliance host
+    - name: Lookup compliance host
       set_fact:
         json_file: "{{ lookup('file', 'compliance_host.json') }}"
     
-    - name: print var
+    - name: Print var
       debug:
         var=json_file
 
-    - name: Update Compliance Host List
+    - name: Update the OpenSCAP policy with the relevant hosts
       uri:
         url: "https://console.redhat.com/api/compliance/profiles/{{ profile_id[0] }}"
         method: PATCH
@@ -147,4 +146,3 @@
         force_basic_auth: yes
       register: new_profile
       ignore_errors: yes
-
