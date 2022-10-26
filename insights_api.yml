@@ -1,23 +1,23 @@
 ---
-- name: Capture hosts for "{{ hosts }}" policy #{{ hosts }}
-  hosts: "{{ hosts }}" # {{ hosts }}
+- name: Capture hosts for "{{ environment }}" policy #{{ hosts }}
+  hosts: "{{ environment }}" # {{ hosts }}
   gather_facts: yes
   tasks:    
-    - name: Create "{{ hosts }}" policy host list #{{ hosts }}
+    - name: Create "{{ environment }}" policy host list #{{ hosts }}
       template:
-        src: templates/{{ hosts }}_host_file_template.j2 #{{ hosts }}
-        dest: files/{{ hosts }}_hosts #{{ hosts }}
+        src: templates/{{ environment }}_host_file_template.j2 #{{ hosts }}
+        dest: files/{{ environment }}_hosts #{{ hosts }}
       delegate_to: localhost
         
     - name: Display file content
       set_fact:
         file_contents: "{{ item }}"
       with_file:
-        - "files/{{ hosts }}_hosts" # {{ hosts }}
+        - "files/{{ environment }}_hosts" # {{ hosts }}
       delegate_to: localhost
 
 - name: Add hosts to compliance policies
-  hosts: '{{ hosts }}' # {{ hosts }}
+  hosts: '{{ environment }}' # {{ hosts }}
   vars:
     - ansible_connection: local
     - profile_name: '{{ profile_name }}' # {{ profile_name }}
@@ -96,7 +96,7 @@
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            
-        - "files/{{ hosts }}_hosts" # {{ hosts }}               
+        - "files/{{ environment }}_hosts" # {{ hosts }}               
       delegate_to: localhost                                
 
     - name: Print file content fact
