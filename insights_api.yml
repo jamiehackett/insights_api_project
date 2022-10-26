@@ -1,9 +1,9 @@
 ---
-- name: Capture hosts for '{{ hosts }}' policy #{{ hosts }}
-  hosts: '{{ hosts }}' # {{ hosts }}
+- name: Capture hosts for "{{ hosts }}" policy #{{ hosts }}
+  hosts: "{{ hosts }}" # {{ hosts }}
   gather_facts: yes
   tasks:    
-    - name: Create '{{ hosts }}' policy host list #{{ hosts }}
+    - name: Create "{{ hosts }}" policy host list #{{ hosts }}
       template:
         src: templates/{{ hosts }}_host_file_template.j2 #{{ hosts }}
         dest: files/{{ hosts }}_hosts #{{ hosts }}
