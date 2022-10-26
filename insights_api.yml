@@ -96,7 +96,7 @@
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            
-        - "files/prod_hosts                      
+        - "files/prod_hosts"                      
       delegate_to: localhost                                
       when: compliance_type == 'production'
 
