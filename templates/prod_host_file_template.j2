@@ -1,4 +1,4 @@
-{% for host in groups[ 'label_compliance_policy_production' ] %}
+{% for host in groups[ 'prod' ] %}
 {{ hostvars[host]['ansible_hostname'] }}.example.com
 {% endfor %}
 
