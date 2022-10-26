@@ -1,11 +1,18 @@
 ---
-- name: run insights compliance scan
+- name: Run insights compliance scan
   hosts: all
   become: true
-#  gather_facts: no
 
   tasks:
-    - name: run insights compliance
+    - name: Ensure the packages required are installed
+      yum:
+        name:
+          - scap-security-guide
+          - openscap-scanner
+          - openscap
+        state: present
+
+    - name: Run insights compliance
       import_role:
         name: redhat.insights.compliance
         tasks_from: run
