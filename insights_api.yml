@@ -1,41 +1,27 @@
 ---
-# At the moment we are duplicating tasks based on hte label i.e prod or non prod probably should look to remove these duplicated tasks and use variables instead. 
-- name: capture hosts adding to compliance policies
-  hosts: all
+- name: capture hosts for production policy
+  hosts: production
   gather_facts: yes
-
-  tasks:
-   # - name: create non-prod policy host list
-   #   template:
-   #     src: templates/non_prod_host_file_template.j2
-   #     dest: files/non_prod_hosts-1
-   #   delegate_to: localhost
-   #   vars:
-   #     ansible_connection: local
-   #   when: compliance_type == 'label_compliance_policy_non_production'
-
-    - name: create prod policy host list
+  tasks:    
+    - name: create production policy host list
       template:
         src: templates/prod_host_file_template.j2
-        dest: files/prod_hosts-1
+        dest: files/prod_hosts
       delegate_to: localhost
-      when: compliance_type == 'prod'
-
+        
+    - name: display file content
+      set_fact:
+        file_contents: "{{ item }}"
+      with_file:
+        - "files/prod_hosts"
+      delegate_to: localhost
 
 - name: add host to compliance policies
-  hosts: '{{ compliance_type }}'
+  hosts: production
   vars:
     - ansible_connection: local
-    # Put in as varaible below so we can change the playbook
-    - profile_name: '{{ profile_name }}'
+    - profile_name: CIS Red Hat Enterprise Linux 8 Benchmark for Level 2 - Server - PRODUCTION
   gather_facts: no
-#  vars:
-#    - profile_name: 'Protection Profile for General Purpose Operating Systems'
-#    - host_name: '2021-09-03-20-41-06-1.dumont-lab.lan'
-  vars_files:
-#    - secrets_folder/ovirt-pass
-#    - vars/test_vars.yml
-
 
   tasks:
     - name: get access token
@@ -56,8 +42,6 @@
     - name: print access token
       set_fact:
         token: "{{ access_token_reponse.json.access_token }}"
-
-
 
     - name: Get Compliance List-URI
       uri:
@@ -81,10 +65,8 @@
 
     - name: profile_id
       set_fact:
-#        profile_id: "{{ profile_list | json_query(get_profile_id) }}"
         profile_id: "{{ profile_list | json_query(get_profile_id) }}"        
       vars:
-#        get_profile_id: "{{ \"data[?attributes.name == 'Protection Profile for General Purpose Operating Systems'].id\" }}"
         get_profile_id: "data[?attributes.name ==  '{{ profile_name }}'].id"
 
     - name: Get Host List
@@ -106,7 +88,6 @@
       set_fact:
         host_data: "{{ host_list.json }}"
 
-
     - name: print fact
       debug:
         var: host_data
@@ -115,17 +96,9 @@
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            
-        - "files/prod_hosts-1"                      
+        - "files/production_hosts-1"                      
       delegate_to: localhost                                
-      when: compliance_type == 'label_compliance_policy_production'
-
-   # - name: set file content fact to non-prod
-    #  set_fact:
-    #    file_contents: "{{ item }}"
-    # with_file:
-    #    - "files/non_prod_hosts-1"
-    #  delegate_to: localhost
-    #  when: compliance_type == 'label_compliance_policy_non_production'
+      when: compliance_type == 'production'
 
     - name: print file content fact
       debug:
@@ -137,9 +110,7 @@
       vars:
         uuid: []
         get_uuid: "results[?fqdn == '{{ item }}'].id"
-#      loop: "{{ file_contents | split(',') }}"
       loop: "{{ file_contents | split('\n') }}"
-#      loop: "{{ file_contents }}"
       delegate_to: localhost
 
     - name: print uuid
@@ -165,7 +136,6 @@
       uri:
         url: "https://console.redhat.com/api/compliance/profiles/{{ profile_id[0] }}"
         method: PATCH
-#        method: GET
         headers:
           Authorization: "Bearer {{ token }}"
           Content-Type: "application/json"
