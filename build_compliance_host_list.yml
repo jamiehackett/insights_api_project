@@ -1,43 +1,37 @@
 ---
-- name: capture hosts for standard compliance policy
-  hosts: label_compliance_policy_standard
+- name: capture hosts for non-production policy
+  hosts: non_production
   gather_facts: yes
-  remote_user: cloud-user
   tasks:
-
-    - name: create standard policy host list
+    - name: create non_production policy host list
       template:
-        src: templates/STD_host_file_template.j2
-        dest: files/std_compliance_hosts
+        src: templates/non_prod_host_file_template.j2
+        dest: files/non_prod_hosts
       delegate_to: localhost
         
-
     - name: display file content
       set_stats:
         data:
           file_contents: "{{ item }}"
       with_file:
-        - "files/std_compliance_hosts"
+        - "files/non_prod_hosts"
       delegate_to: localhost
 
-- name: capture hosts for pci compliance policy
-  hosts: label_compliance_policy_pci
+- name: capture hosts for production policy
+  hosts: production
   gather_facts: yes
-  remote_user: cloud-user
-  tasks:
-    
-    - name: create pci policy host list
+  tasks:    
+    - name: create production policy host list
       template:
-        src: templates/PCI_host_file_template.j2
-        dest: files/pci_compliance_hosts
+        src: templates/prod_host_file_template.j2
+        dest: files/prod_hosts
       delegate_to: localhost
         
-    
     - name: display file content
       set_fact:
         file_contents: "{{ item }}"
       with_file:
-        - "files/pci_compliance_hosts"
+        - "files/prod_hosts"
       delegate_to: localhost
     
 

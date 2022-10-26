@@ -1,4 +1,4 @@
-{% for host in groups[ 'prod' ] %}
+{% for host in groups[ 'production' ] %}
 {{ hostvars[host]['ansible_hostname'] }}.example.com
 {% endfor %}
 
