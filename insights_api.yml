@@ -19,7 +19,7 @@
         src: templates/prod_host_file_template.j2
         dest: files/prod_hosts-1
       delegate_to: localhost
-      when: compliance_type == '{{ compliance_type }}'
+      when: compliance_type == 'prod'
 
 
 - name: add host to compliance policies
