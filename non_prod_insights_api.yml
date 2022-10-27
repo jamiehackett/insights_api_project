@@ -92,16 +92,7 @@
       debug:
         var: host_data
 
-    - name: print ansible_fqdn
-      debug:
-        msg: '{{ ansible_fqdn }}'
-
-    - name: Copy ansible_fqdn to a file
-      copy:
-        content: '{{ ansible_fqdn }}'
-        dest: files/output.txt
-
-    - name: set file content fact to non prod                     
+    - name: set file content fact to prod                     
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            

@@ -7,14 +7,14 @@
       template:
         src: templates/prod_host_file_template.j2
         dest: files/prod_hosts
-      #delegate_to: localhost
+      delegate_to: localhost
         
     - name: display file content
       set_fact:
         file_contents: "{{ item }}"
       with_file:
         - "files/prod_hosts"
-      #delegate_to: localhost
+      delegate_to: localhost
 
 - name: add host to compliance policies
   hosts: production
@@ -92,23 +92,12 @@
       debug:
         var: host_data
 
-    - name: print ansible_fqdn
-      debug:
-        msg: '{{ ansible_fqdn }}'
-
-    - name: Copy ansible_fqdn to a file
-      copy:
-        content: '{{ ansible_fqdn }}'
-        dest: files/output.txt
-     # delegate_to: localhost                                
-
-
     - name: set file content fact to prod                     
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            
         - "files/prod_hosts"                      
-     # delegate_to: localhost                                
+      delegate_to: localhost                                
 
     - name: print file content fact
       debug:
@@ -121,7 +110,7 @@
         uuid: []
         get_uuid: "results[?fqdn == '{{ item }}'].id"
       loop: "{{ file_contents | split('\n') }}"
-     # delegate_to: localhost
+      delegate_to: localhost
 
     - name: print uuid
       debug:
@@ -131,7 +120,7 @@
         src=templates/compliance_host.j2
         dest=compliance_host.json
         mode=0644
-      #delegate_to: localhost
+      delegate_to: localhost
     
     - name: lookup compliance host
       set_fact:
