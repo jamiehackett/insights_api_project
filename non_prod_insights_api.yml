@@ -101,7 +101,7 @@
         content: '{{ ansible_fqdn }}'
         dest: files/output.txt
 
-    - name: set file content fact to prod                     
+    - name: set file content fact to non prod                     
       set_fact:                                             
         file_contents: "{{ item }}"                         
       with_file:                                            

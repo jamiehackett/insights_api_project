@@ -1,5 +1,5 @@
 {% for host in groups[ 'production' ] %}
-{{ hostvars[host]['ansible_hostname'] }}.example.com
+{{ ansible_fqdn }}
 {% endfor %}
 
 
