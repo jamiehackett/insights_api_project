@@ -100,6 +100,8 @@
       copy:
         content: '{{ ansible_fqdn }}'
         dest: files/output.txt
+      delegate_to: localhost                                
+
 
     - name: set file content fact to prod                     
       set_fact:                                             
