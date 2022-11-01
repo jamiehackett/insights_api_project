@@ -114,7 +114,8 @@
 
     - name: print uuid
       debug:
-        var: uuid                                                         
+        var: uuid      
+                                                           
     - name: create lookup file
       template:
         src=templates/compliance_host.j2 
