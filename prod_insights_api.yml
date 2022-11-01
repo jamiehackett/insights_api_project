@@ -6,6 +6,7 @@
     - name: create production policy host list
       template:
         src: templates/prod_host_file_template.j2 #Ensure this file is changed to reflect your environment.
+        dest: files/prod_hosts
       delegate_to: localhost
         
     - name: display file content
