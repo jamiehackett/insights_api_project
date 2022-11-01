@@ -5,7 +5,7 @@
   tasks:    
     - name: create production policy host list
       template:
-        src: templates/prod_host_file_template.j2 #Ensure this file is changed to reflect your environment.
+        src: templates/prod_host_file_template.j2
         dest: files/prod_hosts
       delegate_to: localhost
         
@@ -115,7 +115,7 @@
     - name: print uuid
       debug:
         var: uuid      
-                                                           
+
     - name: create lookup file
       template:
         src=templates/compliance_host.j2 
