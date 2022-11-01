@@ -1,12 +1,11 @@
 ---
 - name: capture hosts for production policy
-  hosts: production
+  hosts: all
   gather_facts: yes
   tasks:    
     - name: create production policy host list
       template:
-        src: templates/prod_host_file_template.j2
-        dest: files/prod_hosts
+        src: templates/prod_host_file_template.j2 #Ensure this file is changed to reflect your environment.
       delegate_to: localhost
         
     - name: display file content
@@ -17,7 +16,7 @@
       delegate_to: localhost
 
 - name: add host to compliance policies
-  hosts: production
+  hosts: all
   vars:
     - ansible_connection: local
     - profile_name: '{{ profile_name }}'
@@ -117,7 +116,7 @@
         var: uuid                                                         
     - name: create lookup file
       template:
-        src=templates/compliance_host.j2
+        src=templates/compliance_host.j2 
         dest=compliance_host.json
         mode=0644
       delegate_to: localhost

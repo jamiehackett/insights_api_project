@@ -1,6 +1,6 @@
 ---
 - name: capture hosts for non_production policy
-  hosts: non_production
+  hosts: all
   gather_facts: yes
   tasks:    
     - name: create non_production policy host list
@@ -17,7 +17,7 @@
       delegate_to: localhost
 
 - name: add host to compliance policies
-  hosts: non_production
+  hosts: all
   vars:
     - ansible_connection: local
     - profile_name: '{{ profile_name }}'
@@ -114,7 +114,8 @@
 
     - name: print uuid
       debug:
-        var: uuid                                                         
+        var: uuid  
+                                                               
     - name: create lookup file
       template:
         src=templates/compliance_host.j2
