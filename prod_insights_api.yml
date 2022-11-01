@@ -1,6 +1,6 @@
 ---
 - name: capture hosts for production policy
-  hosts: localhost
+  hosts: production
   gather_facts: yes
   tasks:    
     - name: create production policy host list
@@ -17,7 +17,7 @@
       delegate_to: localhost
 
 - name: add host to compliance policies
-  hosts: all
+  hosts: production
   vars:
     - ansible_connection: local
     - profile_name: '{{ profile_name }}'
