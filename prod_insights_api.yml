@@ -1,6 +1,6 @@
 ---
 - name: capture hosts for production policy
-  hosts: all
+  hosts: localhost
   gather_facts: yes
   tasks:    
     - name: create production policy host list
