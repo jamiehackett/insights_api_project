@@ -4,11 +4,12 @@
   become: true
   vars:
     username:
-    password: 
+    password:
+    pool_ids: 
   tasks:
     - name: Register with my username "{{ username }}"
       ansible.builtin.redhat_subscription:
         state: present
         username: "{{ username }}"
-        password: " {{ password }}"
-        auto_attach: true
+        password: "{{ password }}"
+        pool_ids: "{{ pool_ids }}"
