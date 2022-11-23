@@ -1,21 +1,4 @@
 ---
-- name: capture hosts for production policy
-  hosts: all
-  gather_facts: yes
-  tasks:    
-    - name: create production policy host list
-      template:
-        src: templates/prod_host_file_template.j2
-        dest: files/prod_hosts
-      delegate_to: localhost
-        
-    - name: display file content
-      set_fact:
-        file_contents: "{{ item }}"
-      with_file:
-        - "files/prod_hosts"
-      delegate_to: localhost
-
 - name: add host to compliance policies
   hosts: all
   vars:
