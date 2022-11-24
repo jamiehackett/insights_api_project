@@ -24,10 +24,10 @@
 
   - name: get uuid of host
     set_fact:
-      uuid: "{{ uuid + [ host_data | json_query(get_uuid)] }}"
+      uuid: "{{ uuid + [ host_data | json_query('[results[?fqdn].id, results[?fqdn].fqdn]')] }}"
     vars:
       uuid: []
-      get_uuid: "results[?fqdn].id"
+      #get_uuid: "results[?fqdn].id"
     delegate_to: localhost
 
   - name: print uuid
