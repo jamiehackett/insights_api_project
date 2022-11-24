@@ -3,7 +3,6 @@
   hosts: all
   vars:
     - ansible_connection: local
-    - profile_name: '{{ profile_name }}'
   gather_facts: no
 
   tasks:
@@ -26,18 +25,6 @@
       set_fact:
         token: "{{ access_token_reponse.json.access_token }}"
 
-    - name: Get Compliance List-URI
-      uri:
-        url: https://console.redhat.com/api/compliance/profiles
-        method: GET
-        headers:
-          Authorization: "Bearer {{ token }}"        
-          Content-Type: "application/json"
-          accept: application/json
-        body_format: form-urlencoded
-        status_code: 200
-        return_content: yes
-        validate_certs: false
-        force_basic_auth: yes
-      register: profiles
-      delegate_to: localhost
+    - name: Include looped tasks
+      include_tasks: looped_tasks.yml
+      loop: [1, 2, 3, 4]
