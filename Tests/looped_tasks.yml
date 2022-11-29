@@ -26,7 +26,7 @@
     set_fact:                                             
       file_contents: "{{ item }}"                         
     with_file:                                            
-      - "etc/files/prod_hosts"                      
+      - "/etc/files/prod_hosts"                      
     delegate_to: localhost
 
   - name: print file content fact
