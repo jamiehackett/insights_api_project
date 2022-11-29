@@ -23,24 +23,24 @@
     debug:
       var: host_data
 
-  - name: set file content fact to prod                     
-    set_fact:                                             
-      file_contents: "{{ item }}"                         
-    with_file:                                            
-      - "/etc/files/prod_hosts"                      
-    delegate_to: localhost
+  #- name: set file content fact to prod                     
+  #  set_fact:                                             
+  #    file_contents: "{{ item }}"                         
+  #  with_file:                                            
+  #    - "/etc/files/prod_hosts"                      
+  #  delegate_to: localhost
 
-  - name: print file content fact
-    debug:
-      var: file_contents
+  #- name: print file content fact
+  #  debug:
+  #    var: file_contents
 
   - name: get uuid of host
     set_fact:
       uuid: "{{ uuid + [ host_data | json_query(get_uuid)] }}"
     vars:
       uuid: []
-      get_uuid: "results[?fqdn == '{{ item }}'].id"
-    loop: "{{ file_contents | split('\n') }}"
+      get_uuid: "results[?fqdn == 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'].id"
+    #loop: "{{ file_contents | split('\n') }}"
     delegate_to: localhost
 
   - name: print uuid
