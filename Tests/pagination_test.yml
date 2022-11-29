@@ -11,6 +11,7 @@
         path: /etc/files
         state: directory
         mode: 0755
+      delegate_to: localhost
 
     - name: Create prod_hosts file
       copy:
