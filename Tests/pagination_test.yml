@@ -11,7 +11,7 @@
       copy:
         dest: prod_host
         content: 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'
-      delegate: localhost
+      delegate_to: localhost
       
     - name: get access token
       uri:
