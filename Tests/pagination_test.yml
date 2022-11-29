@@ -9,13 +9,13 @@
 
     - name: Create prod_hosts file
       copy:
-        dest: prod_host
+        dest: files/prod_host
         content: 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'
       delegate_to: localhost
       
     - name: get access token
       uri:
-        url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
+        url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/tokesn"
         method: POST
         return_content: True
         body_format: form-urlencoded
