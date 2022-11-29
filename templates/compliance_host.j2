@@ -3,9 +3,9 @@
     "relationships": {
      "hosts":{
         "data":[
-{% for var in results %}
+{% for var  in uuid %}
             {
-           "id": "{{ results[0].fqdn }}",
+           "id": "{{ var[0] }}",
             "type": "host"
             },
 {% endfor %}
@@ -13,4 +13,4 @@
       }
     }
    }
- }    
+ } 
