@@ -6,14 +6,10 @@
   gather_facts: no
 
   tasks:
-    - name: Create the files directory
-      file:
-        path: ../files
-        state: directory
 
     - name: Create prod_hosts file
       copy:
-        dest: files/prod_host
+        dest: prod_host
         content: 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'
       
     - name: get access token
