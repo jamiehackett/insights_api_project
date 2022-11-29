@@ -1,0 +1,29 @@
+---
+  - name: Get Compliance List-URI
+    uri:
+      url: https://console.redhat.com/api/compliance/profiles?page={{item}}
+      method: GET
+      headers:
+        Authorization: "Bearer {{ token }}"        
+        Content-Type: "application/json"
+        accept: application/json
+      body_format: form-urlencoded
+      status_code: 200
+      return_content: yes
+      validate_certs: false
+      force_basic_auth: yes
+    register: profiles
+    delegate_to: localhost
+
+  - name: set profile list
+    set_fact:
+      profile_list: "{{ profiles.json }}"
+
+  - name: profile_id
+    set_fact:
+      profile_id: "{{ profile_list | json_query(get_profile_id) }}"        
+    vars:
+      get_profile_id: "data[?attributes.name ==  '{{ profile_name }}'].id"
+
+    
+    

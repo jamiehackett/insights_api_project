@@ -24,7 +24,30 @@
     - name: print access token
       set_fact:
         token: "{{ access_token_reponse.json.access_token }}"
+    
+    - name: Include profile looped tasks
+      include_tasks: looped_tasks_profile.yml
+      with_sequence: start=1 end=6
 
-    - name: Include looped tasks
-      include_tasks: looped_tasks.yml
-      loop: [1, 2, 3, 4]
+    #- name: Include host looped tasks
+    #  include_tasks: looped_tasks.yml
+    #  with_sequence: start=1 end=5
+
+    - name: Print the profile
+      debug:
+        var: profile_id
+
+    - name: Copy profiles to output
+      copy:
+        content: "{{ profile_list }}"
+        dest: files/profile_list.json
+
+    - name: Copy profile_id to file
+      copy:
+        content: "{{ profile_id }}"
+        dest: files/profile_id.json
+
+   # - name: Copyfile to output
+   #   copy:
+   #     content: "{{ uuid }}"
+   #     dest: files/uuid.json
