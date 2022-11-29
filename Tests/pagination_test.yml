@@ -51,3 +51,7 @@
       copy:
         content: "{{ uuid }}"
         dest: files/uuid.json
+
+    - name: Print the UUID
+      debug:
+        msg: "{{ uuid }}"
