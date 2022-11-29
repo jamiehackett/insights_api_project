@@ -8,8 +8,8 @@
   tasks:
     - name: Create prod_hosts file
       copy:
-        path: files/prod_host
-        content: acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com
+        dest: files/prod_host
+        content: 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'
       
     - name: get access token
       uri:
