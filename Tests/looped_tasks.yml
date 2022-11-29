@@ -13,6 +13,7 @@
       validate_certs: false
       force_basic_auth: yes
     register: host_list
+    delegate_to: localhost
 
   - name: host_data fact
     set_fact:
