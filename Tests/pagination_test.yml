@@ -8,10 +8,10 @@
   tasks:
     - name: Create the files directory
       file:
-        path: /files
+        path: /files/
         state: directory
         mode: '0755'
-        
+
     - name: Create prod_hosts file
       copy:
         dest: files/prod_host
