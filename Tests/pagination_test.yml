@@ -6,17 +6,6 @@
   gather_facts: no
 
   tasks:
-    - name: Create the target directory
-      file:
-        path: /etc/files
-        state: directory
-        mode: 0755
-
-    - name: Create prod_hosts file
-      copy:
-        dest: /etc/files/prod_host
-        content: 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'
-      
     - name: get access token
       uri:
         url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
