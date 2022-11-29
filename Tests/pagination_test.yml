@@ -20,7 +20,7 @@
       
     - name: get access token
       uri:
-        url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/tokesn"
+        url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
         method: POST
         return_content: True
         body_format: form-urlencoded
