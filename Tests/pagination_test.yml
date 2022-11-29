@@ -11,13 +11,11 @@
         path: /etc/files
         state: directory
         mode: 0755
-      delegate_to: localhost
 
     - name: Create prod_hosts file
       copy:
         dest: /etc/files/prod_host
         content: 'acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com'
-      delegate_to: localhost
       
     - name: get access token
       uri:
