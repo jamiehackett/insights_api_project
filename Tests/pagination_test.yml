@@ -7,7 +7,7 @@
 
   tasks:
     - name: Create prod_hosts file
-      file:
+      copy:
         path: files/prod_host
         content: acm-ansbile-controller.hosts.prod.psi.rdu2.redhat.com
       
