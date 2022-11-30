@@ -100,20 +100,13 @@
         - "files/prod_hosts"                      
       delegate_to: localhost
 
-
     - name: get uuid of host
       set_fact:
-        to_add: "{{ host_data | json_query(get_uuid) }}"
-      vars:
-        get_uuid: "results[?fqdn == '{{ item }}'].id"
-        loop: "{{ file_contents | split('\n') }}"
-      delegate_to: localhost
-
-    - name: Add uuid to list
-      set_fact:
-        uuid: "{{ uuid + to_add }}"
+        uuid: "{{ uuid + [ host_data | json_query(get_uuid)] }}"
       vars:
         uuid: []
+        get_uuid: "results[?fqdn == '{{ item }}'].id"
+      loop: "{{ file_contents | split('\n') }}"
       delegate_to: localhost
 
     - name: print uuid
