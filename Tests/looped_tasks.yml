@@ -47,7 +47,6 @@
       uuid: "{{ uuid + to_add }}"
     vars:
       uuid: []
-      loop: "{{ file_contents | split('\n') }}"
     delegate_to: localhost
 
   - name: print uuid
