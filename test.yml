@@ -106,6 +106,7 @@
       vars:
         get_uuid: "results[?fqdn == '{{ item }}'].id"
       loop: "{{ file_contents | split('\n') }}"
+      delegate_to: localhost
 
     - name: Add uuid to list
       set_fact:
