@@ -47,10 +47,10 @@
   #      content: "{{ profile_id }}"
   #      dest: files/profile_id.json
 
-    - name: Copyfile to output
+     - name: Copyfile to output
       copy:
         content: "{{ uuid }}"
-        dest: files/uuid.json
+        dest: files/uuid.json 
 
     - name: Print the UUID
       debug:
