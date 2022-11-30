@@ -2,8 +2,6 @@
 - name: capture hosts for production policy
   hosts: all
   gather_facts: yes
-  vars:
-  - ansible_connection: local
   tasks:    
     - name: create production policy host list
       template:
