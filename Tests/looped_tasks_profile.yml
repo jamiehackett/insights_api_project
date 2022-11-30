@@ -1,7 +1,7 @@
 ---
   - name: Get Compliance List-URI
     uri:
-      url: https://console.redhat.com/api/compliance/profiles?page={{item}}
+      url: https://console.redhat.com/api/compliance/profiles
       method: GET
       headers:
         Authorization: "Bearer {{ token }}"        
