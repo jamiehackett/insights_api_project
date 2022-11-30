@@ -100,9 +100,6 @@
         - "files/prod_hosts"                      
       delegate_to: localhost
 
-    - name: print file content fact
-      debug:
-        var: file_contents
 
     - name: get uuid of host
       set_fact:
