@@ -72,3 +72,20 @@
     - name: print var
       debug:
         var=json_file
+
+    - name: Update Compliance Host List
+      uri:
+        url: "https://console.redhat.com/api/compliance/profiles/{{ profile_id[0] }}"
+        method: PATCH
+        headers:
+          Authorization: "Bearer {{ token }}"
+          Content-Type: "application/json"
+          accept: application/json
+        body_format: json
+        body: "{{ lookup('file','compliance_host.json') }}"
+        status_code: 200
+        return_content: yes
+        validate_certs: false
+        force_basic_auth: yes
+      register: new_profile
+      ignore_errors: yes
