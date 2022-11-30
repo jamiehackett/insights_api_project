@@ -2,6 +2,8 @@
 - name: capture hosts for production policy
   hosts: all
   gather_facts: yes
+  vars:
+  - ansible_connection: local
   tasks:    
     - name: create production policy host list
       template:
@@ -48,6 +50,7 @@
 
     - name: Include host looped tasks
       include_tasks: Tests/looped_tasks.yml
+      with_sequence: start=1 end=3
 
     - name: Print the profile
       debug:
@@ -71,20 +74,3 @@
     - name: print var
       debug:
         var=json_file
-
-    - name: Update Compliance Host List
-      uri:
-        url: "https://console.redhat.com/api/compliance/profiles/{{ profile_id[0] }}"
-        method: PATCH
-        headers:
-          Authorization: "Bearer {{ token }}"
-          Content-Type: "application/json"
-          accept: application/json
-        body_format: json
-        body: "{{ lookup('file','compliance_host.json') }}"
-        status_code: 200
-        return_content: yes
-        validate_certs: false
-        force_basic_auth: yes
-      register: new_profile
-      ignore_errors: yes

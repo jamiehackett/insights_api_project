@@ -1,7 +1,7 @@
 ---
   - name: Get Host List
     uri:
-      url: https://cloud.redhat.com/api/inventory/v1/hosts
+      url: https://cloud.redhat.com/api/inventory/v1/hosts?page={{item}}
       method: GET
       headers:
         Authorization: "Bearer {{ token }}"
@@ -36,10 +36,17 @@
 
   - name: get uuid of host
     set_fact:
-      uuid: "{{ uuid + [ host_data | json_query(get_uuid)] }}"
+      to_add: "{{ host_data | json_query(get_uuid) }}"
+    vars:
+      get_uuid: "results[?fqdn == '{{ item }}'].id"
+      loop: "{{ file_contents | split('\n') }}"
+    delegate_to: localhost
+
+  - name: Add uuid to list
+    set_fact:
+      uuid: "{{ uuid + to_add }}"
     vars:
       uuid: []
-      get_uuid: "results[?fqdn == '{{ item }}'].id"
       loop: "{{ file_contents | split('\n') }}"
     delegate_to: localhost
 

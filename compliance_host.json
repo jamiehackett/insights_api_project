@@ -3,12 +3,10 @@
     "relationships": {
      "hosts":{
         "data":[
-{% for var  in uuid %}
             {
-           "id": "{{ var }}",
+           "id": "875a0c8c-2c06-40e5-8109-204e91e1570c",
             "type": "host"
             },
-{% endfor %}
           ]
       }
     }
