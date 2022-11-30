@@ -48,7 +48,6 @@
 
     - name: Include host looped tasks
       include_tasks: Tests/looped_tasks.yml
-      with_sequence: start=1 end=3
 
     - name: Print the profile
       debug:
