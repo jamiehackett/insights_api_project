@@ -3,7 +3,7 @@
   hosts: all
   become: true
   tasks:
-    - name: Register with my username "{{ username }}"
+    - name: Register with my username
       ansible.builtin.redhat_subscription:
         state: present
         username: "{{ username }}"
