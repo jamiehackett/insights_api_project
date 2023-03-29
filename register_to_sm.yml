@@ -4,7 +4,7 @@
   become: true
   tasks:
     - name: Register with my username
-      ansible.builtin.redhat_subscription:
+      community.general.redhat_subscription:
         state: present
         username: "{{ username }}"
         password: "{{ password }}"
