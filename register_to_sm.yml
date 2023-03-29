@@ -2,10 +2,6 @@
 - name: Register to subscription manager & auto attach relevant subscription
   hosts: all
   become: true
-  vars:
-    username:
-    password:
-    pool_ids: 
   tasks:
     - name: Register with my username "{{ username }}"
       ansible.builtin.redhat_subscription:
